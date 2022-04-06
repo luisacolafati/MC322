@@ -1,10 +1,15 @@
+package pt.c02oo.s02classe.s03lombriga;
+
 public class Animacao {
+
     int tamanhoAquario;
     int tamanhoLombriga;
     int posicaoCabecaLombriga;
     String comandosAnimacao;
     AquarioLombriga aquarioLombriga;
+    
     //--------------------------------------------------------------------------------
+    
     Animacao(String stringAnimacao) {
         this.tamanhoAquario = Integer.parseInt(stringAnimacao.substring(0, 2));
         this.tamanhoLombriga = Integer.parseInt(stringAnimacao.substring(2, 4));
@@ -12,12 +17,16 @@ public class Animacao {
         this.comandosAnimacao = stringAnimacao.substring(6);
         this.AquarioLombriga = null;
     }
+    
     //--------------------------------------------------------------------------------
-    void conecta(AquarioLombriga aquarioLombriga) {
-        this.aquarioLombriga = aquarioLombriga;
+    
+    public void conecta(AquarioLombriga aquarioLombriga) {
+        this.aquarioLombriga = new aquarioLombriga(this.tamanhoAquario, this.tamanhoLombriga, this.posicaoCabecaLombriga);
     }
+    
     //--------------------------------------------------------------------------------
-    void passo() {
+    
+    public void passo() {
         if (this.comandosAnimacao.length > 0) {
             switch(comandosAnimacao[0]) {
                 case 'C':
@@ -32,6 +41,10 @@ public class Animacao {
             }
             this.comandosAnimacao = this.comandosAnimacao.substring(1);
         }
+    }
+
+    public void apresenta() {
+        this.aquarioLombriga.apresentar();
     }
 
 }
