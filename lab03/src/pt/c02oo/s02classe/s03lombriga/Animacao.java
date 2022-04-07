@@ -1,4 +1,4 @@
-package src.pt.c02oo.s02classe.s03lombriga;
+package lab03.src.pt.c02oo.s02classe.s03lombriga;
 
 public class Animacao {
 
