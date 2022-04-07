@@ -1,4 +1,4 @@
-package pt.c02oo.s02classe.s03lombriga;
+package lab03.src.pt.c02oo.s02classe.s03lombriga;
 
 public class AquarioLombriga {
 
@@ -16,21 +16,19 @@ public class AquarioLombriga {
         this.tamanhoMinimoAquario = 1;
         this.tamanhoAquario = this.validaERetornaTamanhoAquario(tamanhoAquario); 
 		this.tamanhoLombriga = (this.ehValidoTamanhoLombriga(tamanhoLombriga)) ? tamanhoLombriga : this.tamanhoAquario;
-		this.posicaoCabecaLombriga = (this.posicaoCabecaLombrigaEhValida(posicaoCabecaLombriga)) ? posicaoCabecaLombriga : 1;
+		this.posicaoCabecaLombriga = (this.ehValidaPosicaoCabecaLombriga(posicaoCabecaLombriga)) ? posicaoCabecaLombriga : 1;
 		this.cabecaLombrigaViradaParaEsquerda = true;
 	}
     
     //---------------------------------------------------------------------------------------------------------------------------------------------------------
     
     public int validaERetornaTamanhoAquario(int tamanhoAquario) {
-        switch(tamanhoAquario) {
-            case tamanhoAquario < this.tamanhoMinimoAquario:
-                return this.tamanhoMinimoAquario;
-            case tamanhoAquario > this.tamanhoMaximoAquario:
-                return this.tamanhoMaximoAquario;
-            default:
-                return tamanhoAquario;
+        if (tamanhoAquario < this.tamanhoMinimoAquario) {
+            return this.tamanhoMinimoAquario;
+        } else if (tamanhoAquario > this.tamanhoMaximoAquario) {
+            return this.tamanhoMaximoAquario;
         }
+        return tamanhoAquario;
     }
     
     //---------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -76,16 +74,19 @@ public class AquarioLombriga {
     
     //---------------------------------------------------------------------------------------------------------------------------------------------------------
     
-    public void apresentar() {
+    public String apresentar() {
+        String retratoAquarioLombriga = "";
         for (int i = 1; i <= this.tamanhoAquario; i++) {
             if (i == this.posicaoCabecaLombriga)
-                System.out.println('0');
+                retratoAquarioLombriga += "0";
             else if ((this.cabecaLombrigaViradaParaEsquerda && i <= this.posicaoCabecaLombriga + this.tamanhoLombriga - 1)
                         || !this.cabecaLombrigaViradaParaEsquerda && i >= this.posicaoCabecaLombriga - this.tamanhoLombriga + 1){
-                System.out.println('@');
+                retratoAquarioLombriga += "@";
             }
             else
-                System.out.println('#');
+                retratoAquarioLombriga += "#";
         }
+        return retratoAquarioLombriga;
+        
     }
 }

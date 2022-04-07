@@ -1,10 +1,9 @@
-package pt.c02oo.s02classe.s03lombriga;
+package lab03.src.pt.c02oo.s02classe.s03lombriga;
 
 public class AppLombriga {
 
    public static void main(String[] args) {
 
-      AquarioLombriga aquarioLombriga;
       Animacao animacao;
       
       Toolkit tk = Toolkit.start();
@@ -13,11 +12,10 @@ public class AppLombriga {
       
       for (int l = 0; l < lombrigas.length; l++) {
         animacao = new Animacao(lombrigas[l]);
-        animacao.conecta(aquarioLombriga);
         tk.gravaPasso("=====");
-        while (animacao.comandosAnimacao.length >= 0) {
-           tk.gravaPasso(animacao.apresenta());
+        while (animacao.comandosAnimacao.length() >= 0) {
            animacao.passo();
+           tk.gravaPasso(animacao.apresenta());
         }
       }
       

@@ -1,4 +1,4 @@
-package pt.c02oo.s02classe.s03lombriga;
+package lab03.src.pt.c02oo.s02classe.s03lombriga;
 
 public class Animacao {
 
@@ -15,36 +15,27 @@ public class Animacao {
         this.tamanhoLombriga = Integer.parseInt(stringAnimacao.substring(2, 4));
         this.posicaoCabecaLombriga = Integer.parseInt(stringAnimacao.substring(4, 6));
         this.comandosAnimacao = stringAnimacao.substring(6);
-        this.AquarioLombriga = null;
-    }
-    
-    //--------------------------------------------------------------------------------
-    
-    public void conecta(AquarioLombriga aquarioLombriga) {
-        this.aquarioLombriga = new aquarioLombriga(this.tamanhoAquario, this.tamanhoLombriga, this.posicaoCabecaLombriga);
+        this.aquarioLombriga = new AquarioLombriga(this.tamanhoAquario, this.tamanhoLombriga, this.posicaoCabecaLombriga);
     }
     
     //--------------------------------------------------------------------------------
     
     public void passo() {
-        if (this.comandosAnimacao.length > 0) {
-            switch(comandosAnimacao[0]) {
-                case 'C':
-                    this.aquarioLombriga.crescer();
-                    break;
-                case 'M':
-                    this.aquarioLombriga.mover();
-                    break;
-                case 'V':
-                    this.aquarioLombriga.virar();
-                    break;
+        if (this.comandosAnimacao.length() > 0) {
+            char primeiroCaractere = comandosAnimacao.charAt(0);
+            if (primeiroCaractere == 'C') {
+                this.aquarioLombriga.crescer();
+            } else if (primeiroCaractere == 'M') {
+                this.aquarioLombriga.mover();
+            } else if (primeiroCaractere == 'V') {
+                this.aquarioLombriga.virar();
             }
             this.comandosAnimacao = this.comandosAnimacao.substring(1);
         }
     }
 
-    public void apresenta() {
-        this.aquarioLombriga.apresentar();
+    public String apresenta() {
+        return this.aquarioLombriga.apresentar();
     }
 
 }
