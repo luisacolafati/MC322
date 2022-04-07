@@ -1,4 +1,4 @@
-package lab03.src.pt.c02oo.s02classe.s03lombriga;
+package src.pt.c02oo.s02classe.s03lombriga;
 
 public class AppLombriga {
 
@@ -13,9 +13,10 @@ public class AppLombriga {
       for (int l = 0; l < lombrigas.length; l++) {
         animacao = new Animacao(lombrigas[l]);
         tk.gravaPasso("=====");
-        while (animacao.comandosAnimacao.length() >= 0) {
-           animacao.passo();
-           tk.gravaPasso(animacao.apresenta());
+        tk.gravaPasso(animacao.apresenta());
+        while (animacao.comandosAnimacao.length() != 0) {
+            tk.gravaPasso(animacao.apresenta());  
+            animacao.passo();
         }
       }
       

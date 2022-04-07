@@ -1,4 +1,4 @@
-package lab03.src.pt.c02oo.s02classe.s03lombriga;
+package src.pt.c02oo.s02classe.s03lombriga;
 
 public class Animacao {
 
@@ -33,6 +33,8 @@ public class Animacao {
             this.comandosAnimacao = this.comandosAnimacao.substring(1);
         }
     }
+
+    //--------------------------------------------------------------------------------
 
     public String apresenta() {
         return this.aquarioLombriga.apresentar();

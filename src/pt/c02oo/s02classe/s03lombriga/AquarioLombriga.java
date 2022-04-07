@@ -1,11 +1,11 @@
-package lab03.src.pt.c02oo.s02classe.s03lombriga;
+package src.pt.c02oo.s02classe.s03lombriga;
 
 public class AquarioLombriga {
 
 	int tamanhoMaximoAquario;
     int tamanhoMinimoAquario;
     int tamanhoAquario;
-	int tamanhoLombriga;
+	int tamanhoCorpoLombriga;
 	int posicaoCabecaLombriga;
 	boolean cabecaLombrigaViradaParaEsquerda;
 	
@@ -15,8 +15,8 @@ public class AquarioLombriga {
         this.tamanhoMaximoAquario = 15;
         this.tamanhoMinimoAquario = 1;
         this.tamanhoAquario = this.validaERetornaTamanhoAquario(tamanhoAquario); 
-		this.tamanhoLombriga = (this.ehValidoTamanhoLombriga(tamanhoLombriga)) ? tamanhoLombriga : this.tamanhoAquario;
-		this.posicaoCabecaLombriga = (this.ehValidaPosicaoCabecaLombriga(posicaoCabecaLombriga)) ? posicaoCabecaLombriga : 1;
+		this.tamanhoCorpoLombriga = this.validaERetornaTamanhoCorpoLombriga(tamanhoLombriga);
+		this.posicaoCabecaLombriga = this.validaERetornaPosicaoLombriga(posicaoCabecaLombriga);
 		this.cabecaLombrigaViradaParaEsquerda = true;
 	}
     
@@ -33,39 +33,54 @@ public class AquarioLombriga {
     
     //---------------------------------------------------------------------------------------------------------------------------------------------------------
     
-    public boolean ehValidoTamanhoLombriga(int tamanhoLombriga){
-        return tamanhoLombriga < this.tamanhoAquario;
+    public int validaERetornaTamanhoCorpoLombriga(int tamanhoLombriga){
+        int tamanhoCorpoLombriga = (tamanhoLombriga < this.tamanhoAquario) ? tamanhoLombriga : this.tamanhoAquario;
+        return tamanhoCorpoLombriga - 1; //não considerando a cabeça da lombriga na contagem do tamanho de seu corpo
     }
     
     //---------------------------------------------------------------------------------------------------------------------------------------------------------
     
-    public boolean ehValidaPosicaoCabecaLombriga(int posicaoCabecaLombriga) {
-        return posicaoCabecaLombriga > 1 && posicaoCabecaLombriga < this.tamanhoAquario && this.tamanhoAquario <= this.tamanhoLombriga + posicaoCabecaLombriga;
+    public int validaERetornaPosicaoLombriga(int posicaoCabecaLombriga) {
+        return (posicaoCabecaLombriga >= 1 && posicaoCabecaLombriga <= this.tamanhoAquario) ? posicaoCabecaLombriga : 1;
+    }
+
+    //---------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    public boolean ehParteDoCorpoDaLombriga (int posicaoAquario) {
+        if (this.cabecaLombrigaViradaParaEsquerda) {
+            return posicaoAquario > this.posicaoCabecaLombriga && posicaoAquario <= (this.posicaoCabecaLombriga + this.tamanhoCorpoLombriga);
+        } else {
+            return posicaoAquario >= (this.posicaoCabecaLombriga - this.tamanhoCorpoLombriga) && posicaoAquario < this.posicaoCabecaLombriga;
+        }
     }
 	
     //---------------------------------------------------------------------------------------------------------------------------------------------------------
 	
     public void crescer() {
-		if (this.cabecaLombrigaViradaParaEsquerda && this.posicaoCabecaLombriga + this.tamanhoLombriga < this.tamanhoAquario)
-			this.tamanhoLombriga++;
+		if (this.cabecaLombrigaViradaParaEsquerda) {
+            if ((this.posicaoCabecaLombriga + this.tamanhoCorpoLombriga) < this.tamanhoAquario) {
+                this.tamanhoCorpoLombriga++;
+            }
+        }
+
 		else if(this.posicaoCabecaLombriga - this.posicaoCabecaLombriga > 1)
-			this.tamanhoLombriga++;
+            this.tamanhoCorpoLombriga++;
 	}
 	
     //---------------------------------------------------------------------------------------------------------------------------------------------------------
 	
     public void virar() {
         if (this.cabecaLombrigaViradaParaEsquerda)
-            this.posicaoCabecaLombriga += this.tamanhoLombriga - 1;
+            this.posicaoCabecaLombriga += this.tamanhoCorpoLombriga;
         else
-            this.posicaoCabecaLombriga -= this.tamanhoLombriga + 1;
+            this.posicaoCabecaLombriga -= this.tamanhoCorpoLombriga;
         this.cabecaLombrigaViradaParaEsquerda = !this.cabecaLombrigaViradaParaEsquerda;
     }
     
     //---------------------------------------------------------------------------------------------------------------------------------------------------------
     
     public void mover() {
-        boolean deveMover = this.cabecaLombrigaViradaParaEsquerda ? this.posicaoCabecaLombriga - 1 >= 1 : this.posicaoCabecaLombriga + 1 <= this.tamanhoAquario;
+        boolean deveMover = this.cabecaLombrigaViradaParaEsquerda ? this.posicaoCabecaLombriga != 1 : this.posicaoCabecaLombriga != this.tamanhoAquario;
         if (deveMover)
             this.posicaoCabecaLombriga = this.cabecaLombrigaViradaParaEsquerda ? this.posicaoCabecaLombriga - 1 : this.posicaoCabecaLombriga + 1;
         else
@@ -75,18 +90,17 @@ public class AquarioLombriga {
     //---------------------------------------------------------------------------------------------------------------------------------------------------------
     
     public String apresentar() {
-        String retratoAquarioLombriga = "";
+        String representacaoGraficaAquarioLombriga = "";
         for (int i = 1; i <= this.tamanhoAquario; i++) {
             if (i == this.posicaoCabecaLombriga)
-                retratoAquarioLombriga += "0";
-            else if ((this.cabecaLombrigaViradaParaEsquerda && i <= this.posicaoCabecaLombriga + this.tamanhoLombriga - 1)
-                        || !this.cabecaLombrigaViradaParaEsquerda && i >= this.posicaoCabecaLombriga - this.tamanhoLombriga + 1){
-                retratoAquarioLombriga += "@";
+                representacaoGraficaAquarioLombriga += "0";
+            else if (ehParteDoCorpoDaLombriga(i)){
+                representacaoGraficaAquarioLombriga += "@";
             }
             else
-                retratoAquarioLombriga += "#";
+                representacaoGraficaAquarioLombriga += "#";
         }
-        return retratoAquarioLombriga;
+        return representacaoGraficaAquarioLombriga;
         
     }
 }
